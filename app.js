@@ -22,6 +22,11 @@ app.get('/info', (req, res) => {
   });
 });
 
-app.listen(PORT, HOST, () => {
+const server = app.listen(PORT, HOST, () => {
   console.log(`Servidor rodando em http://${HOST}:${PORT}`);
 });
+
+// Maior que o Connection Keep-Alive Timeout do OpenLiteSpeed (60s),
+// evitando 502 esporádicos por conexões reaproveitadas que o Node já fechou
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;
